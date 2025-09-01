@@ -17,12 +17,12 @@ public class BlockStackManager : MonoBehaviour
     private SwipeInputManager swipeInputManager;
     private void Awake()
     {
-        Init();
+
     }
 
     private void Start()
     {
-
+        Init();
     }
 
 
@@ -39,21 +39,30 @@ public class BlockStackManager : MonoBehaviour
 
     }
 
-    private void SubscribeEvent()
-    {
-        //SwipeInputManager.OnSwipeDetected += HandleSwipeDetected;
-
-    }
-
+    /// <summary>
+    /// 맨앞 빼내기
+    /// </summary>
+    /// <param name="data"></param>
     private void HandleSwipeDetected(SwipeData data)
     {
         if (currentBlocks.Count > 0)
         {
             Block topBlock = currentBlocks.Dequeue();
             topBlock.Move(data.direction);
-            //Destroy(topBlock.gameObject);
+            Allign();
         }
 
+    }
+
+    private void Allign()
+    {
+        foreach (Block b in currentBlocks)
+        {
+            Vector3 targetPos = new Vector3(0, 1, 0.5f * System.Array.IndexOf(currentBlocks.ToArray(), b));
+            b.transform.position = targetPos;
+        }
+        var data = GetRandomBlockData();
+        CreateBlock(data);
     }
 
     private BlockData GetRandomBlockData()
