@@ -2,6 +2,7 @@
 using UnityEngine;
 using SwipeSort;
 using System.Collections;
+using Assets.Scripts;
 
 // 도형 스택을 관리하는 핵심 매니저
 public class BlockStackManager : MonoBehaviour
@@ -15,6 +16,10 @@ public class BlockStackManager : MonoBehaviour
     public Queue<Block> currentBlocks = new Queue<Block>();
 
     private SwipeInputManager swipeInputManager;
+
+    private Score score;
+
+    public int ScoreValue { get; set; }
     private void Awake()
     {
 
@@ -28,6 +33,7 @@ public class BlockStackManager : MonoBehaviour
 
     private void Init()
     {
+        score = new Score();
         for (int i = 0; i < stackCount; i++)
         {
             BlockData data = GetRandomBlockData();
@@ -48,11 +54,13 @@ public class BlockStackManager : MonoBehaviour
         if (currentBlocks.Count > 0)
         {
             Block topBlock = currentBlocks.Dequeue();
+            GameManager.instance.CheckCorrect(data, topBlock);
             topBlock.Move(data.direction);
             Allign();
         }
 
     }
+
 
     private void Allign()
     {
