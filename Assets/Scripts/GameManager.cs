@@ -14,8 +14,12 @@ namespace Assets.Scripts
         public static GameManager instance;
         [SerializeField] public GameMode currentGameMode = GameMode.Shape;
 
-        SwipeArea leftArea;
-        SwipeArea rightArea;
+        GameRule leftRule;
+        GameRule rightRule;
+
+        BlockStackManager blockStackManager;
+        Score score;
+
         private void Awake()
         {
             if (instance != null)
@@ -25,8 +29,16 @@ namespace Assets.Scripts
             }
             instance = this;
             DontDestroyOnLoad(gameObject);
-            currentGameMode = GameMode.Shape;
 
+            blockStackManager = GetComponent<BlockStackManager>();
+            currentGameMode = GameMode.Shape;
+            SetGameRule();
+        }
+        private void SetGameRule()
+        {
+            leftRule = new ShapeRule(ShapeType.Circle, SwipeDirection.Left);
+            rightRule = new ShapeRule(ShapeType.Square, SwipeDirection.Right);
+            score = new Score();
         }
 
         /// <summary>
@@ -36,7 +48,7 @@ namespace Assets.Scripts
         /// <param name="swipe"></param>
         /// <param name="block"></param>
         /// <returns></returns>
-        private bool CheckCorrect(SwipeData swipe, Block block)
+        public bool CheckCorrect(SwipeData swipe, Block block)
         {
             bool isCorrect = false;
             //block.data.number
@@ -45,16 +57,27 @@ namespace Assets.Scripts
             switch (swipe.direction)
             {
                 case SwipeDirection.Left:
-                    if (leftArea.rule.IsBlockMatch(block.data))
+                    if (leftRule.IsBlockMatch(block.data))
                         isCorrect = true;
                     break;
                 case SwipeDirection.Right:
-                    if (rightArea.rule.IsBlockMatch(block.data))
+                    if (rightRule.IsBlockMatch(block.data))
                         isCorrect = true;
                     break;
             }
             return isCorrect;
         }
+
+        internal void Swipe(SwipeData data)
+        {
+            var block = blockStackManager.HandleSwipeDetected(data);
+            bool result = CheckCorrect(data, block);
+            if (result)
+                score.Add(10);
+            else
+                score.Subtract(5);
+        }
+
         private class SwipeArea
         {
             public SwipeDirection direction;

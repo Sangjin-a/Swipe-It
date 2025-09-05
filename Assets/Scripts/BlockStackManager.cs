@@ -3,6 +3,7 @@ using UnityEngine;
 using SwipeSort;
 using System.Collections;
 using Assets.Scripts;
+using System;
 
 // 도형 스택을 관리하는 핵심 매니저
 public class BlockStackManager : MonoBehaviour
@@ -17,7 +18,6 @@ public class BlockStackManager : MonoBehaviour
 
     private SwipeInputManager swipeInputManager;
 
-    private Score score;
 
     public int ScoreValue { get; set; }
     private void Awake()
@@ -33,7 +33,6 @@ public class BlockStackManager : MonoBehaviour
 
     private void Init()
     {
-        score = new Score();
         for (int i = 0; i < stackCount; i++)
         {
             BlockData data = GetRandomBlockData();
@@ -41,7 +40,7 @@ public class BlockStackManager : MonoBehaviour
             go.transform.position = new Vector3(0, 1, i * 0.5f);
             //go.transform.position = new Vector3(0, 1 + i * 0.2f, i * 0.5f);
         }
-        SwipeInputManager.instance.OnSwipeDetected += HandleSwipeDetected;
+        //SwipeInputManager.instance.OnSwipeDetected += HandleSwipeDetected;
 
     }
 
@@ -49,16 +48,16 @@ public class BlockStackManager : MonoBehaviour
     /// 맨앞 빼내기
     /// </summary>
     /// <param name="data"></param>
-    private void HandleSwipeDetected(SwipeData data)
+    public Block HandleSwipeDetected(SwipeData data)
     {
         if (currentBlocks.Count > 0)
         {
             Block topBlock = currentBlocks.Dequeue();
-            GameManager.instance.CheckCorrect(data, topBlock);
             topBlock.Move(data.direction);
             Allign();
+            return topBlock;
         }
-
+        throw new IndexOutOfRangeException();
     }
 
 
@@ -75,8 +74,8 @@ public class BlockStackManager : MonoBehaviour
 
     private BlockData GetRandomBlockData()
     {
-        BlockColor c = (BlockColor)Random.Range(0, 5);
-        ShapeType s = (ShapeType)Random.Range(0, 2);
+        BlockColor c = (BlockColor)UnityEngine.Random.Range(0, 5);
+        ShapeType s = (ShapeType)UnityEngine.Random.Range(0, 2);
 
         BlockData result = new BlockData(s, c, BlockSize.Small, 0);
 

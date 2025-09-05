@@ -18,13 +18,14 @@ namespace Assets.Scripts
             {
                 val = value;
                 CoreManager.instance.scoreTMP.text = val.ToString();
-                
+
             }
         }
 
         public Score(int initialValue = 0)
         {
-            Value = initialValue;
+            if (initialValue != 0)
+                Value = initialValue;
         }
         public void Add(int amount)
         {

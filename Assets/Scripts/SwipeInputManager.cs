@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Assets.Scripts;
 
 namespace SwipeSort
 {
@@ -221,7 +222,7 @@ namespace SwipeSort
         {
             // 전체 스와이프 이벤트 발생
             OnSwipeDetected?.Invoke(swipeData);
-
+            GameManager.instance.Swipe(swipeData);
             // 방향별 이벤트 발생
             switch (swipeData.direction)
             {
