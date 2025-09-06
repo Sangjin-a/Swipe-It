@@ -41,6 +41,55 @@ namespace Assets.Scripts
             score = new Score();
         }
 
+        public void GetRandomMode()
+        {
+            GameRule rule = null;
+
+            Array modes = Enum.GetValues(typeof(GameMode));
+            GameMode randomMode = (GameMode)modes.GetValue(UnityEngine.Random.Range(0, modes.Length));
+            currentGameMode = randomMode;
+
+            switch (randomMode)
+            {
+                case GameMode.Shape:
+                    ShapeType leftShape = (ShapeType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ShapeType)).Length);
+                    ShapeType rightShape;
+                    do
+                    {
+                        rightShape = (ShapeType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ShapeType)).Length);
+                    } while (rightShape == leftShape);
+                    leftRule = new ShapeRule(leftShape, SwipeDirection.Left);
+                    rightRule = new ShapeRule(rightShape, SwipeDirection.Right);
+                    rule = leftRule;
+                    break;
+                case GameMode.Color:
+                    BlockColor leftColor = (BlockColor)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BlockColor)).Length);
+                    BlockColor rightColor;
+                    do
+                    {
+                        rightColor = (BlockColor)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BlockColor)).Length);
+                    } while (rightColor == leftColor);
+                    leftRule = new ColorRule(leftColor, SwipeDirection.Left);
+                    rightRule = new ColorRule(rightColor, SwipeDirection.Right);
+                    rule = leftRule;
+                    break;
+                case GameMode.Number:
+                    int leftNumber = UnityEngine.Random.Range(1, 7);
+                    int rightNumber;
+                    do
+                    {
+                        rightNumber = UnityEngine.Random.Range(1, 7);
+                    } while (rightNumber == leftNumber);
+                    leftRule = new NumberRule(leftNumber, SwipeDirection.Left);
+                    rightRule = new NumberRule(rightNumber, SwipeDirection.Right);
+                    rule = leftRule;
+                    break;
+
+            }
+            Debug.Log($"<color=green>[GameManager] GameMode changed to {currentGameMode}, LeftRule: {leftRule}, RightRule: {rightRule}</color>");
+
+        }
+
         /// <summary>
         /// 정답 체크 로직
         /// </summary>
@@ -64,6 +113,11 @@ namespace Assets.Scripts
                     if (rightRule.IsBlockMatch(block.data))
                         isCorrect = true;
                     break;
+            }
+
+            if (score.Value > 50)
+            {
+                GetRandomMode();
             }
             return isCorrect;
         }

@@ -18,7 +18,7 @@ public class BlockStackManager : MonoBehaviour
 
     private SwipeInputManager swipeInputManager;
 
-
+    [SerializeField] Transform blockSpawnPos;
     public int ScoreValue { get; set; }
     private void Awake()
     {
@@ -44,6 +44,24 @@ public class BlockStackManager : MonoBehaviour
 
     }
 
+    float timer = 0f;
+    public void Update()
+    {
+        foreach (Block b in currentBlocks)
+        {
+            b.transform.Translate(new Vector3(0, 0, -1) * Time.deltaTime);
+        }
+
+        //
+        timer += Time.deltaTime;
+        if (timer >= 1f)
+        {
+            timer = 0f;
+            var data = GetRandomBlockData();
+            CreateBlock(data);
+        }
+
+    }
     /// <summary>
     /// 맨앞 빼내기
     /// </summary>
@@ -63,13 +81,8 @@ public class BlockStackManager : MonoBehaviour
 
     private void Allign()
     {
-        foreach (Block b in currentBlocks)
-        {
-            Vector3 targetPos = new Vector3(0, 1, 0.5f * System.Array.IndexOf(currentBlocks.ToArray(), b));
-            b.transform.position = targetPos;
-        }
-        var data = GetRandomBlockData();
-        CreateBlock(data);
+
+
     }
 
     private BlockData GetRandomBlockData()
@@ -103,6 +116,7 @@ public class BlockStackManager : MonoBehaviour
                 }
         }
         Block block = go.GetComponent<Block>();
+        go.transform.position = blockSpawnPos.position;
         block.SetupBlock(data);
         currentBlocks.Enqueue(block);
         return go;
