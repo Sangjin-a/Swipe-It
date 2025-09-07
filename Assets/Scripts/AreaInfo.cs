@@ -5,5 +5,5 @@ using UnityEngine.UI;
 public class AreaInfo : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public Image sprite;
+    public Image icon;
 }

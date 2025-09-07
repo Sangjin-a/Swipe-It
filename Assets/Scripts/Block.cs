@@ -11,9 +11,9 @@ namespace SwipeSort
         Circle,
         Square,
         Triangle,
-        Diamond,
-        Star,
-        Heart
+        /*    Diamond,
+           Star,
+           Heart*/
     }
 
     public enum BlockColor
@@ -21,9 +21,9 @@ namespace SwipeSort
         Red,
         Blue,
         Yellow,
-        Green,
-        Purple,
-        Orange
+        /*       Green,
+               Purple,
+               Orange*/
     }
 
     public enum BlockSize
@@ -63,7 +63,7 @@ namespace SwipeSort
         public BlockData data;
 
         [Header("Visual Components")]
-        public MeshRenderer meshRenderer;
+        [HideInInspector] public MeshRenderer meshRenderer;
         public TextMesh numberText;
 
 
@@ -110,9 +110,9 @@ namespace SwipeSort
                 case BlockColor.Red: return Color.red;
                 case BlockColor.Blue: return Color.blue;
                 case BlockColor.Yellow: return Color.yellow;
-                case BlockColor.Green: return Color.green;
-                case BlockColor.Purple: return new Color(0.5f, 0f, 0.5f);
-                case BlockColor.Orange: return new Color(1f, 0.5f, 0f);
+                /*                case BlockColor.Green: return Color.green;
+                                case BlockColor.Purple: return new Color(0.5f, 0f, 0.5f);
+                                case BlockColor.Orange: return new Color(1f, 0.5f, 0f);*/
                 default: return Color.white;
             }
         }

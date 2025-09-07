@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 8912678}
   - component: {fileID: 8912681}
   - component: {fileID: 8912682}
+  - component: {fileID: 8912683}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squarePrefab: {fileID: 4554633272559341438, guid: 9218b0acc84a96a498ade728bad7910f, type: 3}
   circlePrefab: {fileID: 1450410618818221712, guid: c5f8151566085424ba7748248101ea7d, type: 3}
+  trianglePrefab: {fileID: 7362498969317540482, guid: 08827b81fbbf3fc499c57d537976bb90, type: 3}
   stackCount: 5
   blockSpawnPos: {fileID: 805709652}
 --- !u!4 &8912679
@@ -185,7 +187,7 @@ MonoBehaviour:
   minSwipeDistance: 50
   maxSwipeTime: 1
   angleThreshold: 30
-  showDebugInfo: 1
+  showDebugInfo: 0
   drawSwipeLine: 1
 --- !u!114 &8912681
 MonoBehaviour:
@@ -213,6 +215,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGameMode: 0
+--- !u!114 &8912683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51e5a36b4dd80b14090323a329725ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 1514934542}
+  leftInfo: {fileID: 1139404410}
+  rightInfo: {fileID: 1699641517}
 --- !u!1 &68926190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,7 +1305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1903072251}
-  sprite: {fileID: 0}
+  icon: {fileID: 0}
 --- !u!1 &1242148807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,7 +1647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 730799159}
-  sprite: {fileID: 0}
+  icon: {fileID: 0}
 --- !u!1 &1903072249
 GameObject:
   m_ObjectHideFlags: 0

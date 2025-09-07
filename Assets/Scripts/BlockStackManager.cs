@@ -11,6 +11,7 @@ public class BlockStackManager : MonoBehaviour
 
     [SerializeField] private GameObject squarePrefab;
     [SerializeField] private GameObject circlePrefab;
+    [SerializeField] private GameObject trianglePrefab;
 
     public int stackCount;
 
@@ -20,6 +21,9 @@ public class BlockStackManager : MonoBehaviour
 
     [SerializeField] Transform blockSpawnPos;
     public int ScoreValue { get; set; }
+
+    private int blockColorCount = Enum.GetValues(typeof(BlockColor)).Length;
+    private int shapeTypeCount = Enum.GetValues(typeof(ShapeType)).Length;
     private void Awake()
     {
 
@@ -27,7 +31,8 @@ public class BlockStackManager : MonoBehaviour
 
     private void Start()
     {
-        Init();
+        // Init();
+
     }
 
 
@@ -87,8 +92,8 @@ public class BlockStackManager : MonoBehaviour
 
     private BlockData GetRandomBlockData()
     {
-        BlockColor c = (BlockColor)UnityEngine.Random.Range(0, 5);
-        ShapeType s = (ShapeType)UnityEngine.Random.Range(0, 2);
+        BlockColor c = (BlockColor)UnityEngine.Random.Range(0, blockColorCount);
+        ShapeType s = (ShapeType)UnityEngine.Random.Range(0, shapeTypeCount);
 
         BlockData result = new BlockData(s, c, BlockSize.Small, 0);
 
@@ -110,9 +115,14 @@ public class BlockStackManager : MonoBehaviour
                     go = Instantiate(squarePrefab);
                     break;
                 }
+            case ShapeType.Triangle:
+                {
+                    go = Instantiate(trianglePrefab);
+                    break;
+                }
             default:
                 {
-                    throw new System.Exception("해당하는 모양이 없습니다.");
+                    throw new System.Exception($"해당하는 모양이 없습니다. {data.shape.ToString()}");
                 }
         }
         Block block = go.GetComponent<Block>();
