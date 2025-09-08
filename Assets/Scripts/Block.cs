@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SwipeSort
 {
@@ -65,7 +66,7 @@ namespace SwipeSort
         [Header("Visual Components")]
         [HideInInspector] public MeshRenderer meshRenderer;
         public TextMesh numberText;
-
+        public UnityEvent onBlockMoveEnd;
 
         private void Awake()
         {
@@ -149,6 +150,7 @@ namespace SwipeSort
                 transform.position = Vector3.Lerp(transform.position, dir * 5f, t);
                 yield return null;
             }
+            onBlockMoveEnd?.Invoke();
         }
     }
 
